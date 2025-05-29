@@ -1,6 +1,6 @@
 # input-monitor
 
-![项目横幅](/home/peter/Pictures/OIP-C.jpeg)
+![项目横幅](/home/peter/exercise/py/input/input-monitor/OIP-C.jpeg)
 
 [![standard-readme compliant](https://img.shields.io/badge/readme%20style-standard-brightgreen.svg?style=flat-square)](https://github.com/RichardLitt/standard-readme)
 
