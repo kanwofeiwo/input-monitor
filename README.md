@@ -6,7 +6,7 @@
 
 [简体中文](README.zh-CN.md)
 
-> Switch input source for different focusing windows on Linux
+> Switch input source for different focusing windows on **Linux-ibus**
 
 A Python script that automatically switches input source between English and Rime (or other input sources) based on the currently focused window on Linux systems. This tool helps users seamlessly switch between different input methods without manual intervention.
 
