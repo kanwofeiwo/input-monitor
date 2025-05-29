@@ -1,70 +1,104 @@
-#input-monitor#
-switch input source for different  focusing windows** on linux**
-use pyscript to switch input source between English and rime( or other input source for you)
-
-
-Install:
-# Input Monitor (输入法监视器)
+# input-monitor
 
 [![standard-readme compliant](https://img.shields.io/badge/readme%20style-standard-brightgreen.svg?style=flat-square)](https://github.com/RichardLitt/standard-readme)
 
-一个 Linux 下根据当前聚焦窗口自动切换输入法的 Python 脚本。
+> Switch input source for different focusing windows on Linux
 
-本工具旨在解决在 Linux 环境下，需要在不同应用程序（如代码编辑器、浏览器、聊天工具）之间频繁切换输入法（例如，英文和 Rime 中文输入法）的痛点。它能监视当前窗口焦点，并根据预设规则自动切换到合适的输入法，提升工作效率。
+A Python script that automatically switches input source between English and Rime (or other input sources) based on the currently focused window on Linux systems. This tool helps users seamlessly switch between different input methods without manual intervention.
 
-## 内容列表
+## Table of Contents
 
-- [背景](#背景)
-- [安装](#安装)
-- [使用说明](#使用说明)
-- [配置](#配置)
-- [如何贡献](#如何贡献)
-- [使用许可](#使用许可)
+- [Background](#background)
+- [Install](#install)
+- [Usage](#usage)
+- [API](#api)
+- [Maintainers](#maintainers)
+- [Contributing](#contributing)
+- [License](#license)
 
----
+## Background
 
-## 背景
+Input-monitor was created to solve the common problem of manually switching input sources when working with different applications on Linux. Many users need to frequently switch between English and other input methods (like Rime for Chinese input) depending on the application they're using. This tool automates that process by monitoring window focus changes and automatically switching input sources accordingly.
 
-在 Linux 系统中，不同的应用程序可能需要使用不同的输入法。例如，在编写代码时通常使用英文输入法，而在聊天或撰写文档时则可能需要中文或其他语言的输入法。手动切换不仅繁琐，还容易打断工作流程。`Input Monitor` 通过自动化这一过程，让您可以更专注于当前任务。
+The script uses Python with keyboard monitoring capabilities to detect focus changes and execute input source switching commands seamlessly in the background.
 
----
+## Install
 
-## 安装
+This project uses [Python 3](https://python.org) and requires several Python packages. Make sure you have Python installed locally.
 
-**1. 先决条件**
-
-* **Linux 环境**: 本脚本专为 Linux 设计。
-* **Python 3**: 确保您的系统已安装 Python 3。
-* **Git**: 用于克隆仓库。
-* **pip**: 用于安装 Python 依赖库。
-
-**2. 克隆仓库**
+Clone the repository:
 
 ```sh
-git clone [https://github.com/kanwofeiwo/input-monitor.git](https://github.com/kanwofeiwo/input-monitor.git)
-cd input-monitor
-git clone https://github.com/kanwofeiwo/input-monitor.git
+$ git clone https://github.com/kanwofeiwo/input-monitor.git
+$ cd input-monitor
+```
 
+Install required dependencies:
 
-Required third-party libraries:
+```sh
+$ pip install pynput
+```
 
-pip install subprocess
+Note: `subprocess` and `time` are built-in Python modules and don't need separate installation.
 
-pip install time
+## Usage
 
-pip install pynput
+Run the input monitor script:
 
+```sh
+$ python input-monitor.py
+```
 
-Using instruction:
+### Keyboard Shortcuts
 
-shortcut"z+x":suspend/continue
+The application supports the following keyboard shortcuts:
 
-shortcut"z+x+c":quit
+- **z+x**: Suspend/continue monitoring
+- **z+x+c**: Quit the application
 
+### Configuration
 
-Change details for you
+Before running the script, you may need to customize it for your specific setup:
 
-1.change windows-input in line 85:if __name__ == "__main__":
+1. **Change window-input mapping** (line 85): 
+   ```python
+   if __name__ == "__main__":
+       # Modify the window-input source mappings here
+   ```
 
-2.change shortcut in line 52:def on_press(key):
+2. **Change keyboard shortcuts** (line 52):
+   ```python
+   def on_press(key):
+       # Modify the key combinations here
+   ```
 
+### System Requirements
+
+- Linux operating system
+- Python 3.x
+- Input method framework (such as IBus, Fcitx, etc.)
+- Rime input method or other input sources you want to switch between
+
+## API
+
+This is a standalone script and doesn't provide an API interface. The main functionality is handled through:
+
+- Window focus detection
+- Input source switching
+- Keyboard shortcut handling
+
+The script monitors system events and responds automatically without requiring direct API calls.
+
+## Maintainers
+
+[@kanwofeiwo](https://github.com/kanwofeiwo)
+
+## Contributing
+
+PRs accepted.
+
+Small note: If editing the README, please conform to the [standard-readme](https://github.com/RichardLitt/standard-readme) specification.
+
+## License
+
+[MIT](LICENSE) © kanwofeiwo
