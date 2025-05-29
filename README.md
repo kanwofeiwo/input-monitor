@@ -1,5 +1,7 @@
 # input-monitor
 
+![项目横幅](/home/peter/Pictures/OIP-C.jpeg)
+
 [![standard-readme compliant](https://img.shields.io/badge/readme%20style-standard-brightgreen.svg?style=flat-square)](https://github.com/RichardLitt/standard-readme)
 
 [简体中文](README.zh-CN.md)
@@ -13,7 +15,6 @@ A Python script that automatically switches input source between English and Rim
 - [Background](#background)
 - [Install](#install)
 - [Usage](#usage)
-- [API](#api)
 - [Maintainers](#maintainers)
 - [Contributing](#contributing)
 - [License](#license)
@@ -81,19 +82,6 @@ Before running the script, you may need to customize it for your specific setup:
 - Input method framework (such as IBus, Fcitx, etc.)
 - Rime input method or other input sources you want to switch between
 
-## API
-
-This is a standalone script and doesn't provide an API interface. The main functionality is handled through:
-
-- Window focus detection
-- Input source switching
-- Keyboard shortcut handling
-
-The script monitors system events and responds automatically without requiring direct API calls.
-
-## Maintainers
-
-[@kanwofeiwo](https://github.com/kanwofeiwo)
 
 ## Contributing
 
