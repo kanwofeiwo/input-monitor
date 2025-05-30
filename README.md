@@ -4,7 +4,7 @@
 
 [简体中文](README.zh-CN.md)
 
-> Smart input source switcher for different focusing windows on **Linux-ibus**
+Smart input source switcher for different focusing windows on **Linux-ibus**
 
 A Python script that automatically switches input source between English and Rime (or other input sources) based on the currently focused window on Linux systems. This tool helps users seamlessly switch between different input methods without manual intervention, and includes smart features like temporary switching with long-press Shift.
 
