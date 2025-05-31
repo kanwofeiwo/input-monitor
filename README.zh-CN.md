@@ -4,57 +4,60 @@
 
 [English](README.md)
 
-基于活动窗口的 **Linux-ibus** 智能输入法切换工具
+适用于 **Linux**&**Windows** 的智能输入法切换工具
 
-一个 Python 脚本，根据当前聚焦的窗口在 Linux 系统上自动在英文和 Rime（或其他输入法）之间切换输入源。此工具帮助用户无需手动干预即可在不同输入法之间无缝切换，并包含长按 Shift 临时切换等智能功能。
+基于当前焦点窗口自动在英文和中文输入法（Rime、拼音等）之间切换的跨平台 Python 脚本。该工具帮助用户无需手动干预即可在不同输入法之间无缝切换，具有长按 Shift 临时切换等智能功能。
 
 ## 目录
 - [背景](#背景)
 - [功能特性](#功能特性)
 - [安装](#安装)
-- [使用](#使用)
-- [配置](#配置)
+- [使用方法](#使用方法)
+- [配置说明](#配置说明)
+- [平台支持](#平台支持)
+- [故障排除](#故障排除)
 - [维护者](#维护者)
 - [贡献](#贡献)
 - [许可证](#许可证)
 
 ## 背景
-Input-monitor 的创建是为了解决在 Linux 上使用不同应用程序时需要手动切换输入源的常见问题。许多用户需要根据正在使用的应用程序频繁地在英文和其他输入法（如用于中文输入的 Rime）之间切换。此工具通过监控窗口焦点变化并相应地自动切换输入源来自动化这一过程。
+Input-monitor 旨在解决在使用不同应用程序时手动切换输入法的常见问题。许多用户需要根据所使用的应用程序频繁在英文和其他输入法（如中文的 Rime 或系统原生输入法）之间切换。该工具通过监控窗口焦点变化并相应地自动切换输入法来实现这一过程的自动化。
 
-该脚本使用具有键盘监控功能的 Python 来检测焦点变化并在后台无缝执行输入源切换命令。
+该脚本使用 Python 的键盘监控功能来检测焦点变化，并在所有主要操作系统的后台无缝执行输入法切换命令。
 
 ## 功能特性
 
-- **基于窗口的自动切换**: 根据窗口标题自动切换输入法
-- **默认回退机制**: 当没有关键字匹配时，自动回退到 Rime 输入法
-- **长按 Shift 临时切换**: 长按左 Shift 键 200ms 从 Rime 临时切换到英文，松开后切换回来
-- **热键控制**: 易于使用的键盘快捷键来控制应用程序
-- **实时监控**: 每秒监控活动窗口以实现响应式切换
-- **可配置规则**: 轻松自定义窗口标题关键字和对应的输入法
+- **跨平台支持**：适用于 Linux (IBus)、Windows
+- **基于窗口的自动切换**：根据窗口标题自动切换输入法
+- **默认回退机制**：当没有关键字匹配时，自动回退到您偏好的输入法
+- **长按 Shift 临时切换**：长按左 Shift 200ms 从中文临时切换到英文，释放后切回,使得输入特殊符号更快捷
+- **热键控制**：易用的键盘快捷键控制应用程序
+- **实时监控**：每1秒循环监控活动窗口
 
 ## 安装
 
-此项目使用 [Python 3](https://python.org) 并需要几个 Python 包。确保您已在本地安装 Python。
+本项目使用 [Python 3](https://python.org) 并需要多个 Python 包。确保本地安装了 Python 3.6+。
 
-### 前置条件
+### 系统要求
 
-确保您已安装以下组件：
-- Linux 操作系统
-- Python 3.x
-- IBus 输入法框架
-- `xdotool`（用于窗口检测）
-
-安装系统依赖：
+#### Linux
 ```sh
-# 在 Ubuntu/Debian 上
-$ sudo apt install xdotool ibus
+# Ubuntu/Debian 系统
+$ sudo apt install xdotool ibus python3-pip
 
-# 在 Fedora/RHEL 上
-$ sudo dnf install xdotool ibus
+# Fedora/RHEL 系统
+$ sudo dnf install xdotool ibus python3-pip
 
-# 在 Arch Linux 上
-$ sudo pacman -S xdotool ibus
+# Arch Linux 系统
+$ sudo pacman -S xdotool ibus python
 ```
+
+#### Windows
+- Windows 10/11
+- Python 3.6+
+
+
+### 安装步骤
 
 克隆仓库：
 ```sh
@@ -63,93 +66,161 @@ $ cd input-monitor
 ```
 
 安装所需的 Python 依赖：
+
+**Linux：**
 ```sh
 $ pip install pynput
 ```
 
-注意：`subprocess`、`time` 和 `threading` 是 Python 内置模块，无需单独安装。
+**Windows：**
+```sh
+$ pip install pynput pywin32 psutil pyautogui
+```
 
-## 使用
 
-运行输入法监控脚本：
+## 使用方法
+
+### 运行脚本
+
+**Linux：**
 ```sh
 $ python input-monitor.py
 ```
 
+**Windows：**
+```sh
+$ python windows-input-monitor.py
+```
+
+
+
 ### 键盘快捷键
 
-应用程序支持以下键盘快捷键：
+应用程序在所有平台上支持以下键盘快捷键：
 
-- **Z+X**: 切换监控开/关
-- **Z+X+C**: 退出应用程序
-- **长按左 Shift（200ms+）**: 从 Rime 临时切换到英文输入法（仅当前输入法为 Rime 时）
+- **Z+X**：切换监控开/关
+- **Z+X+C**：退出应用程序
+- **长按左 Shift（200ms+）**：临时切换到英文输入法,松开后恢复原输入法
 
 ### 默认行为
 
-- **基于窗口的切换**: 输入法根据预定义的窗口标题关键字切换
-- **默认回退**: 当没有关键字匹配当前窗口标题时，系统默认使用 Rime 输入法
-- **临时切换**: 在 Rime 模式下长按左 Shift 键临时使用英文输入
+- **基于窗口的切换**：根据预定义的窗口标题关键字切换输入法
+- **默认回退**：当没有关键字匹配当前窗口标题时，使用配置的默认输入法
+- **临时切换**：长按左 Shift 在中文模式下临时使用英文输入
+- **智能切换**：仅在必要时切换，避免中断
 
-## 配置
+## 配置说明
 
 ### 窗口-输入法映射
 
-修改主要部分中的 `keyword_to_engine` 字典（约第 110 行）：
+修改各平台脚本中的 `keyword_to_engine` 字典：
 
+**Linux：**
 ```python
 keyword_to_engine = {
     "peter": "xkb:us::eng",  # 窗口标题包含 'peter' 时切换到英文
     "edge": "rime",          # 窗口标题包含 'edge' 时切换到 Rime
-    "/": "xkb:us::eng",      # 路径时切换到英文
-    "vim": "xkb:us::eng",    # Vim 时切换到英文
-    ".py": "xkb:us::eng",    # Python 文件时切换到英文
-    "QQ": "rime",            # QQ 时切换到 Rime
-    ".tex": "rime",          # LaTeX 文件时切换到 Rime
-    ".v": "xkb:us::eng"      # Verilog 文件时切换到英文
+    "vim": "xkb:us::eng",    # Vim 使用英文
+    ".py": "xkb:us::eng",    # Python 文件使用英文
+    "QQ": "rime",            # QQ 使用 Rime
+    ".tex": "rime",          # LaTeX 文件使用 Rime
 }
 ```
 
+**Windows：**
+```python
+keyword_to_engine = {
+    "notepad": "en",         # 记事本使用英文
+    "visual studio": "en",   # VS 使用英文
+    "qq": "zh",              # QQ 使用中文
+    "wechat": "zh",          # 微信使用中文
+    ".py": "en",             # Python 文件使用英文
+}
+```
+
+
 ### 默认输入法
 
-更改默认输入法（约第 114 行）：
+在各脚本中更改默认输入法：
 ```python
-default_engine = "rime"  # 将此更改为您偏好的默认输入法
+default_engine = "rime"  # Linux
+default_engine = "zh"    # Windows
 ```
 
-### 键盘快捷键
+### 长按时间调整
 
-在 `on_press` 函数中修改按键组合（约第 45 行）：
+调整长按检测时间：
 ```python
-# 当前：Z+X 切换，Z+X+C 退出
+shift_timer = threading.Timer(0.2, on_shift_long_press)  # 将 0.2 改为所需秒数
+```
+
+### 自定义热键
+
+修改 `on_press` 函数中的组合键：
+```python
+# 当前：Z+X 切换功能，Z+X+C 退出
 if 'z' in current_keys and 'x' in current_keys:
-    # 根据需要修改这些按键组合
+    # 根据需要修改这些组合键
 ```
 
-### 长按时间
-
-在 `on_press` 函数中调整长按检测时间（约第 55 行）：
-```python
-shift_timer = threading.Timer(0.2, on_shift_long_press)  # 将 0.2 更改为所需的秒数
-```
-
-### 系统要求
-
-- 带有 X11 的 Linux 操作系统
-- Python 3.x
-- IBus 输入法框架
-- 用于窗口标题检测的 `xdotool`
-- Rime 输入法或您想要切换的其他输入源
 
 ## 故障排除
 
-### 常见问题
+### Linux 问题
+1. **"xdotool not found"**：`sudo apt install xdotool`
+2. **"ibus not configured"**：确保 IBus 正在运行：`ibus-daemon -drx`
+3. **输入法不切换**：检查可用引擎：`ibus list-engine`
 
-1. **"找不到 xdotool"**: 使用包管理器安装 xdotool
-2. **"ibus 未配置"**: 确保 IBus 正在运行并正确配置
-3. **输入法未切换**: 使用 `ibus engine` 验证您的输入法引擎名称
-4. **权限问题**: 确保脚本有权限监控键盘输入
+### Windows 问题
+1. **脚本不工作**：以管理员身份运行
+2. **输入法不切换**：调整 `INPUT_METHODS` 标识符
+3. **权限错误**：检查用户账户控制设置
+4. **热键不工作**：安装 pyautogui：`pip install pyautogui`
 
-### 检查可用的输入法
+
+
+### 调试
+
+通过添加调试打印启用详细日志：
+```python
+print(f"[DEBUG] 当前窗口: {title}")
+print(f"[DEBUG] 匹配的引擎: {matched_engine}")
+```
+
+检查可用的输入法：
+```sh
+# Linux
+$ ibus list-engine
+
+# Windows - 在语言设置中检查
+
+```
+
+## 开发
+
+### 项目结构
+```
+input-monitor/
+├── input-monitor.py          # Linux 版本（原版）
+├── windows-input-monitor.py  # Windows 版本
+├── macos-input-monitor.py    # macOS 版本
+├── README.md                 # 英文文档
+├── README.zh-CN.md           # 中文文档
+└── LICENSE                   # MIT 许可证
+```
+
+
+## 贡献
+
+欢迎贡献！以下是您可以帮助的方式：
+
+1. **错误报告**：使用详细信息开启 issue
+2. **功能请求**：建议新功能或改进  
+3. **平台支持**：帮助添加新平台支持
+4. **文档**：改进文档和示例
+5. **测试**：在不同系统和配置上测试
+
+欢迎提交 PR。编辑 README 时请遵循 [standard-readme](https://github.com/RichardLitt/standard-readme) 规范。
 
 列出可用的 IBus 引擎：
 ```sh
@@ -161,12 +232,13 @@ $ ibus list-engine
 $ ibus engine
 ```
 
-## 贡献
-
-欢迎 PR。
-
-小提示：如果编辑 README，请遵守 [standard-readme](https://github.com/RichardLitt/standard-readme) 规范。
-
 ## 许可证
 
 [MIT](LICENSE) © kanwofeiwo
+
+---
+
+⭐ 如果这个项目帮助了您，请考虑给它一个星标！
+
+
+🐛 发现了错误？请[报告它](../../issues/new)

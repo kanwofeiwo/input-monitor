@@ -1,60 +1,64 @@
 # input-monitor
-![项目横幅](./OIP-C.jpeg)
+
+![Project Banner](./OIP-C.jpeg)
 [![standard-readme compliant](https://img.shields.io/badge/readme%20style-standard-brightgreen.svg?style=flat-square)](https://github.com/RichardLitt/standard-readme)
 
-[简体中文](README.zh-CN.md)
+[中文](README.zh-CN.md)
 
-Smart input source switcher for different focusing windows on **Linux-ibus**
+Intelligent input method switching tool for **Linux** & **Windows**
 
-A Python script that automatically switches input source between English and Rime (or other input sources) based on the currently focused window on Linux systems. This tool helps users seamlessly switch between different input methods without manual intervention, and includes smart features like temporary switching with long-press Shift.
+A cross-platform Python script that automatically switches between English and Chinese input methods (Rime, Pinyin, etc.) based on the currently focused window. This tool helps users seamlessly switch between different input methods without manual intervention, featuring smart functionality like long-press Shift for temporary switching.
 
 ## Table of Contents
 - [Background](#background)
 - [Features](#features)
-- [Install](#install)
+- [Installation](#installation)
 - [Usage](#usage)
 - [Configuration](#configuration)
+- [Platform Support](#platform-support)
+- [Troubleshooting](#troubleshooting)
 - [Maintainers](#maintainers)
 - [Contributing](#contributing)
 - [License](#license)
 
 ## Background
-Input-monitor was created to solve the common problem of manually switching input sources when working with different applications on Linux. Many users need to frequently switch between English and other input methods (like Rime for Chinese input) depending on the application they're using. This tool automates that process by monitoring window focus changes and automatically switching input sources accordingly.
 
-The script uses Python with keyboard monitoring capabilities to detect focus changes and execute input source switching commands seamlessly in the background.
+Input-monitor aims to solve the common problem of manually switching input methods when using different applications. Many users need to frequently switch between English and other input methods (such as Chinese Rime or native system input methods) depending on the application they're using. This tool automates this process by monitoring window focus changes and automatically switching input methods accordingly.
+
+The script uses Python's keyboard monitoring capabilities to detect focus changes and seamlessly executes input method switching commands in the background across all major operating systems.
 
 ## Features
 
-- **Automatic Window-based Switching**: Automatically switches input methods based on window titles
-- **Default Fallback**: When no keywords match, automatically falls back to Rime input method
-- **Long-press Shift Temporary Switch**: Hold left Shift for 200ms to temporarily switch from Rime to English, release to switch back
-- **Hotkey Controls**: Easy-to-use keyboard shortcuts for controlling the application
-- **Real-time Monitoring**: Monitors active windows every second for responsive switching
-- **Configurable Rules**: Easily customize window title keywords and corresponding input methods
+- **Cross-platform support**: Works on Linux (IBus), Windows
+- **Window-based automatic switching**: Automatically switches input methods based on window titles
+- **Default fallback mechanism**: Automatically falls back to your preferred input method when no keywords match
+- **Long-press Shift temporary switching**: Long-press left Shift for 200ms to temporarily switch from Chinese to English, returns when released, making special symbol input faster
+- **Hotkey control**: Easy-to-use keyboard shortcuts to control the application
+- **Real-time monitoring**: Monitors active window every 1 second in a loop
 
-## Install
+## Installation
 
-This project uses [Python 3](https://python.org) and requires several Python packages. Make sure you have Python installed locally.
+This project uses [Python 3](https://python.org) and requires several Python packages. Make sure you have Python 3.6+ installed locally.
 
-### Prerequisites
+### System Requirements
 
-Make sure you have the following installed:
-- Linux operating system
-- Python 3.x
-- IBus input method framework
-- `xdotool` (for window detection)
-
-Install system dependencies:
+#### Linux
 ```sh
-# On Ubuntu/Debian
-$ sudo apt install xdotool ibus
+# Ubuntu/Debian systems
+$ sudo apt install xdotool ibus python3-pip
 
-# On Fedora/RHEL
-$ sudo dnf install xdotool ibus
+# Fedora/RHEL systems
+$ sudo dnf install xdotool ibus python3-pip
 
-# On Arch Linux
-$ sudo pacman -S xdotool ibus
+# Arch Linux systems
+$ sudo pacman -S xdotool ibus python
 ```
+
+#### Windows
+- Windows 10/11
+- Python 3.6+
+
+### Installation Steps
 
 Clone the repository:
 ```sh
@@ -63,110 +67,163 @@ $ cd input-monitor
 ```
 
 Install required Python dependencies:
+
+**Linux:**
 ```sh
 $ pip install pynput
 ```
 
-Note: `subprocess`, `time`, and `threading` are built-in Python modules and don't need separate installation.
+**Windows:**
+```sh
+$ pip install pynput pywin32 psutil pyautogui
+```
 
 ## Usage
 
-Run the input monitor script:
+### Running the Script
+
+**Linux:**
 ```sh
 $ python input-monitor.py
 ```
 
+**Windows:**
+```sh
+$ python windows-input-monitor.py
+```
+
 ### Keyboard Shortcuts
 
-The application supports the following keyboard shortcuts:
+The application supports the following keyboard shortcuts on all platforms:
 
 - **Z+X**: Toggle monitoring on/off
-- **Z+X+C**: Quit the application
-- **Long-press Left Shift (200ms+)**: Temporarily switch from Rime to English input method (only when current method is Rime)
+- **Z+X+C**: Exit the application
+- **Long-press left Shift (200ms+)**: Temporarily switch to English input method, restore original input method when released
 
 ### Default Behavior
 
-- **Window-based switching**: Input method switches based on predefined window title keywords
-- **Default fallback**: When no keywords match the current window title, the system defaults to Rime input method
-- **Temporary switching**: Long-press left Shift to temporarily use English input while in Rime mode
+- **Window-based switching**: Switches input methods based on predefined window title keywords
+- **Default fallback**: Uses the configured default input method when no keywords match the current window title
+- **Temporary switching**: Long-press left Shift to temporarily use English input while in Chinese mode
+- **Smart switching**: Only switches when necessary to avoid interruption
 
 ## Configuration
 
 ### Window-Input Method Mapping
 
-Modify the `keyword_to_engine` dictionary in the main section (around line 110):
+Modify the `keyword_to_engine` dictionary in the respective platform scripts:
 
+**Linux:**
 ```python
 keyword_to_engine = {
     "peter": "xkb:us::eng",  # Switch to English when window title contains 'peter'
     "edge": "rime",          # Switch to Rime when window title contains 'edge'
-    "/": "xkb:us::eng",      # Switch to English for paths
-    "vim": "xkb:us::eng",    # Switch to English for Vim
-    ".py": "xkb:us::eng",    # Switch to English for Python files
-    "QQ": "rime",            # Switch to Rime for QQ
-    ".tex": "rime",          # Switch to Rime for LaTeX files
-    ".v": "xkb:us::eng"      # Switch to English for Verilog files
+    "vim": "xkb:us::eng",    # Use English for Vim
+    ".py": "xkb:us::eng",    # Use English for Python files
+    "QQ": "rime",            # Use Rime for QQ
+    ".tex": "rime",          # Use Rime for LaTeX files
+}
+```
+
+**Windows:**
+```python
+keyword_to_engine = {
+    "notepad": "en",         # Use English for Notepad
+    "visual studio": "en",   # Use English for VS
+    "qq": "zh",              # Use Chinese for QQ
+    "wechat": "zh",          # Use Chinese for WeChat
+    ".py": "en",             # Use English for Python files
 }
 ```
 
 ### Default Input Method
 
-Change the default input method (around line 114):
+Change the default input method in each script:
 ```python
-default_engine = "rime"  # Change this to your preferred default
+default_engine = "rime"  # Linux
+default_engine = "zh"    # Windows
 ```
 
-### Keyboard Shortcuts
+### Long-press Time Adjustment
 
-Modify the key combinations in the `on_press` function (around line 45):
-```python
-# Current: Z+X for toggle, Z+X+C for quit
-if 'z' in current_keys and 'x' in current_keys:
-    # Modify these key combinations as needed
-```
-
-### Long-press Timing
-
-Adjust the long-press detection time in the `on_press` function (around line 55):
+Adjust the long-press detection time:
 ```python
 shift_timer = threading.Timer(0.2, on_shift_long_press)  # Change 0.2 to desired seconds
 ```
 
-### System Requirements
+### Custom Hotkeys
 
-- Linux operating system with X11
-- Python 3.x
-- IBus input method framework
-- `xdotool` for window title detection
-- Rime input method or other input sources you want to switch between
+Modify the key combinations in the `on_press` function:
+```python
+# Current: Z+X toggles functionality, Z+X+C exits
+if 'z' in current_keys and 'x' in current_keys:
+    # Modify these key combinations as needed
+```
 
 ## Troubleshooting
 
-### Common Issues
+### Linux Issues
+1. **"xdotool not found"**: `sudo apt install xdotool`
+2. **"ibus not configured"**: Ensure IBus is running: `ibus-daemon -drx`
+3. **Input method not switching**: Check available engines: `ibus list-engine`
 
-1. **"xdotool not found"**: Install xdotool using your package manager
-2. **"ibus not configured"**: Make sure IBus is running and properly configured
-3. **Input methods not switching**: Verify your input method engine names using `ibus engine`
-4. **Permission issues**: Make sure the script has permission to monitor keyboard input
+### Windows Issues
+1. **Script not working**: Run as administrator
+2. **Input method not switching**: Adjust `INPUT_METHODS` identifiers
+3. **Permission errors**: Check User Account Control settings
+4. **Hotkeys not working**: Install pyautogui: `pip install pyautogui`
 
-### Checking Available Input Methods
+### Debugging
 
-List available IBus engines:
-```sh
-$ ibus list-engine
+Enable verbose logging by adding debug prints:
+```python
+print(f"[DEBUG] Current window: {title}")
+print(f"[DEBUG] Matched engine: {matched_engine}")
 ```
 
-Get current active engine:
+Check available input methods:
 ```sh
-$ ibus engine
+# Linux
+$ ibus list-engine
+
+# Windows - Check in Language settings
+```
+
+## Development
+
+### Project Structure
+```
+input-monitor/
+├── input-monitor.py          # Linux version (original)
+├── windows-input-monitor.py  # Windows version
+├── macos-input-monitor.py    # macOS version
+├── README.md                 # English documentation
+├── README.zh-CN.md           # Chinese documentation
+└── LICENSE                   # MIT License
 ```
 
 ## Contributing
 
-PRs accepted.
+Contributions are welcome! Here's how you can help:
 
-Small note: If editing the README, please conform to the [standard-readme](https://github.com/RichardLitt/standard-readme) specification.
+1. **Bug reports**: Open issues with detailed information
+2. **Feature requests**: Suggest new features or improvements
+3. **Platform support**: Help add support for new platforms
+4. **Documentation**: Improve documentation and examples
+5. **Testing**: Test on different systems and configurations
+
+PRs are welcome. When editing the README, please follow the [standard-readme](https://github.com/RichardLitt/standard-readme) specification.
+
+## Maintainers
+
+[@kanwofeiwo](https://github.com/kanwofeiwo)
 
 ## License
 
 [MIT](LICENSE) © kanwofeiwo
+
+---
+
+⭐ If this project helped you, please consider giving it a star!
+
+🐛 Found a bug? Please [report it](../../issues/new)

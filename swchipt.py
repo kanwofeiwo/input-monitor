@@ -177,7 +177,7 @@ if __name__ == "__main__":
 
             time.sleep(1)  # 每隔 1 秒检查一次
     except KeyboardInterrupt:
-        print("Monitoring stopped. Goodbye!")
+        print("Monitoring  stopped. Goodbye!")
     finally:
         # 清理定时器
         if shift_timer:
