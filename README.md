@@ -2,8 +2,6 @@
 
 ![Project Banner](./OIP-C.jpeg)
 [![standard-readme compliant](https://img.shields.io/badge/readme%20style-standard-brightgreen.svg?style=flat-square)](https://github.com/RichardLitt/standard-readme)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Python](https://img.shields.io/badge/python-3.6+-blue.svg)](https://www.python.org/downloads/)
 
 [中文](README.zh-CN.md)
 
@@ -93,13 +91,6 @@ $ python input-monitor.py
 ```sh
 $ python windows-input-monitor.py
 ```
-
-### Initial Setup
-
-#### Windows
-1. Run the script as administrator
-2. Adjust the `INPUT_METHODS` dictionary in the script according to your installed input methods
-3. Test the input method switching functionality manually first
 
 ### Keyboard Shortcuts
 

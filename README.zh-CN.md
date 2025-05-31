@@ -1,8 +1,6 @@
 # input-monitor
 ![项目横幅](./OIP-C.jpeg)
 [![standard-readme compliant](https://img.shields.io/badge/readme%20style-standard-brightgreen.svg?style=flat-square)](https://github.com/RichardLitt/standard-readme)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Python](https://img.shields.io/badge/python-3.6+-blue.svg)](https://www.python.org/downloads/)
 
 [English](README.md)
 
@@ -94,13 +92,6 @@ $ python input-monitor.py
 $ python windows-input-monitor.py
 ```
 
-
-### 首次设置
-
-#### Windows
-1. 以管理员身份运行脚本
-2. 根据已安装的输入法调整脚本中的 `INPUT_METHODS` 字典
-3. 先手动测试输入法切换功能
 
 
 ### 键盘快捷键
